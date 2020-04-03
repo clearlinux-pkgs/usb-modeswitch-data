@@ -4,7 +4,7 @@
 #
 Name     : usb-modeswitch-data
 Version  : 20170806
-Release  : 2
+Release  : 3
 URL      : http://www.draisberghof.de/usb_modeswitch/usb-modeswitch-data-20170806.tar.bz2
 Source0  : http://www.draisberghof.de/usb_modeswitch/usb-modeswitch-data-20170806.tar.bz2
 Summary  : No detailed summary available
@@ -13,7 +13,6 @@ License  : GPL-2.0
 Requires: usb-modeswitch-data-config = %{version}-%{release}
 Requires: usb-modeswitch-data-data = %{version}-%{release}
 Requires: usb-modeswitch-data-license = %{version}-%{release}
-Patch1: fix-udevdir.patch
 
 %description
 Almost all new and corrected device configurations since around 2012
@@ -46,14 +45,13 @@ license components for the usb-modeswitch-data package.
 %prep
 %setup -q -n usb-modeswitch-data-20170806
 cd %{_builddir}/usb-modeswitch-data-20170806
-%patch1 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1585950503
+export SOURCE_DATE_EPOCH=1585954556
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -66,11 +64,11 @@ make  %{?_smp_mflags}
 
 
 %install
-export SOURCE_DATE_EPOCH=1585950503
+export SOURCE_DATE_EPOCH=1585954556
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/usb-modeswitch-data
 cp %{_builddir}/usb-modeswitch-data-20170806/COPYING %{buildroot}/usr/share/package-licenses/usb-modeswitch-data/dfac199a7539a404407098a2541b9482279f690d
-%make_install
+%make_install RULESDIR=%{buildroot}/usr/lib/udev/rules.d
 
 %files
 %defattr(-,root,root,-)
