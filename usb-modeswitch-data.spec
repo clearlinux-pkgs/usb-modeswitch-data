@@ -4,18 +4,28 @@
 #
 Name     : usb-modeswitch-data
 Version  : 20170806
-Release  : 1
+Release  : 2
 URL      : http://www.draisberghof.de/usb_modeswitch/usb-modeswitch-data-20170806.tar.bz2
 Source0  : http://www.draisberghof.de/usb_modeswitch/usb-modeswitch-data-20170806.tar.bz2
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : GPL-2.0
+Requires: usb-modeswitch-data-config = %{version}-%{release}
 Requires: usb-modeswitch-data-data = %{version}-%{release}
 Requires: usb-modeswitch-data-license = %{version}-%{release}
+Patch1: fix-udevdir.patch
 
 %description
 Almost all new and corrected device configurations since around 2012
 were collected and compiled by Lars Melin. Thank you!
+
+%package config
+Summary: config components for the usb-modeswitch-data package.
+Group: Default
+
+%description config
+config components for the usb-modeswitch-data package.
+
 
 %package data
 Summary: data components for the usb-modeswitch-data package.
@@ -35,13 +45,15 @@ license components for the usb-modeswitch-data package.
 
 %prep
 %setup -q -n usb-modeswitch-data-20170806
+cd %{_builddir}/usb-modeswitch-data-20170806
+%patch1 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1570817785
+export SOURCE_DATE_EPOCH=1585950503
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -54,15 +66,18 @@ make  %{?_smp_mflags}
 
 
 %install
-export SOURCE_DATE_EPOCH=1570817785
+export SOURCE_DATE_EPOCH=1585950503
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/usb-modeswitch-data
-cp COPYING %{buildroot}/usr/share/package-licenses/usb-modeswitch-data/COPYING
+cp %{_builddir}/usb-modeswitch-data-20170806/COPYING %{buildroot}/usr/share/package-licenses/usb-modeswitch-data/dfac199a7539a404407098a2541b9482279f690d
 %make_install
 
 %files
 %defattr(-,root,root,-)
-/lib/udev/rules.d/40-usb_modeswitch.rules
+
+%files config
+%defattr(-,root,root,-)
+/usr/lib/udev/rules.d/40-usb_modeswitch.rules
 
 %files data
 %defattr(-,root,root,-)
@@ -556,4 +571,4 @@ cp COPYING %{buildroot}/usr/share/package-licenses/usb-modeswitch-data/COPYING
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/usb-modeswitch-data/COPYING
+/usr/share/package-licenses/usb-modeswitch-data/dfac199a7539a404407098a2541b9482279f690d

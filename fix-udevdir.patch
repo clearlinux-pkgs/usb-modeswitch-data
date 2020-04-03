@@ -1,0 +1,12 @@
+diff -ru usb-modeswitch-data-20170806~/Makefile usb-modeswitch-data-20170806/Makefile
+--- usb-modeswitch-data-20170806~/Makefile	2017-08-06 07:46:39.000000000 -0700
++++ usb-modeswitch-data-20170806/Makefile	2020-04-03 14:47:03.439746225 -0700
+@@ -3,7 +3,7 @@
+ RM          = /bin/rm -f
+ PREFIX      = $(DESTDIR)/usr
+ ETCDIR      = $(DESTDIR)/etc
+-RULESDIR    = $(DESTDIR)/lib/udev/rules.d
++RULESDIR    = $(DESTDIR)/usr/lib/udev/rules.d
+ 
+ 
+ .PHONY:     clean
